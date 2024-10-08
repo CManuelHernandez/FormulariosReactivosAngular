@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 } from '../../../shared/validators/validators'; */
 
 import { ValidatorsService } from '../../../shared/service/validators.service';
+import { EmailValidator } from '../../../shared/validators/email.validator.service';
 
 @Component({
   selector: 'app-register-page',
@@ -17,7 +18,8 @@ export class RegisterPageComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private validatorService: ValidatorsService
+    private validatorService: ValidatorsService,
+    private emailValidator: EmailValidator
   ) {}
 
   ngOnInit(): void {
@@ -29,12 +31,21 @@ export class RegisterPageComponent implements OnInit {
           Validators.pattern(this.validatorService.firstNameAndLastnamePattern),
         ],
       ],
+      /* email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(this.validatorService.emailPattern),
+        ],
+        [new EmailValidator()],
+      ], */
       email: [
         '',
         [
           Validators.required,
           Validators.pattern(this.validatorService.emailPattern),
         ],
+        [this.emailValidator],
       ],
       username: ['', [Validators.required, this.validatorService.cantBeAdmin]],
       password: ['', [Validators.required, Validators.minLength(6)]],
