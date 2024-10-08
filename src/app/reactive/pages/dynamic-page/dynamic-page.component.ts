@@ -48,6 +48,10 @@ export class DynamicPageComponent {
     return null;
   }
 
+  onDeleteFavorite(index: number): void {
+    this.favoriteGames.removeAt(index);
+  }
+
   isValidFieldInArray(formArray: FormArray, index: number) {
     return (
       formArray.controls[index].errors && formArray.controls[index].touched
