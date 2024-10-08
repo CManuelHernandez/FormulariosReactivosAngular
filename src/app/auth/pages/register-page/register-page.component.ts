@@ -23,15 +23,18 @@ export class RegisterPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.myForm = this.fb.group({
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(this.validatorService.firstNameAndLastnamePattern),
+    this.myForm = this.fb.group(
+      {
+        name: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(
+              this.validatorService.firstNameAndLastnamePattern
+            ),
+          ],
         ],
-      ],
-      /* email: [
+        /* email: [
         '',
         [
           Validators.required,
@@ -39,18 +42,30 @@ export class RegisterPageComponent implements OnInit {
         ],
         [new EmailValidator()],
       ], */
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(this.validatorService.emailPattern),
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(this.validatorService.emailPattern),
+          ],
+          [this.emailValidator],
         ],
-        [this.emailValidator],
-      ],
-      username: ['', [Validators.required, this.validatorService.cantBeAdmin]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      password2: ['', [Validators.required]],
-    });
+        username: [
+          '',
+          [Validators.required, this.validatorService.cantBeAdmin],
+        ],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        password2: ['', [Validators.required]],
+      },
+      {
+        validators: [
+          this.validatorService.isFieldOneEqualFieldTwo(
+            'password',
+            'password2'
+          ),
+        ],
+      }
+    );
   }
 
   isValidField(field: string) {
